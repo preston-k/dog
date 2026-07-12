@@ -135,9 +135,12 @@ export default function AdminPage() {
           <a href="/" style={{ color: "#6b7280", textDecoration: "none", fontSize: "0.9rem" }}>
             <i className="bi bi-arrow-left" /> Home
           </a>
-          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 800, color: "#111827", letterSpacing: "-0.02em" }}>
+          <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 800, color: "#111827", letterSpacing: "-0.02em", flex: 1 }}>
             Admin
           </h1>
+          <a href="/api/auth/logout" style={{ color: "#9ca3af", textDecoration: "none", fontSize: "0.85rem" }}>
+            Sign out
+          </a>
         </div>
 
         {/* Today stats */}
