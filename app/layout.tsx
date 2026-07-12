@@ -7,6 +7,7 @@ const geist = Geist({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Dog Tracker",
   description: "Track your dog's daily activities",
+  icons: { icon: "/favicon.png" },
 };
 
 export const viewport: Viewport = {
