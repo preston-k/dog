@@ -11,12 +11,16 @@ interface Entry {
   notes: string | null;
 }
 
-const TYPE_CONFIG: Record<Activity, { icon: string; color: string; label: string }> = {
+const TYPE_CONFIG: Record<string, { icon: string; color: string; label: string }> = {
   pee: { icon: "bi-droplet-fill", color: "#d97706", label: "Pee" },
   poop: { icon: "bi-moon-fill", color: "#78350f", label: "Poop" },
   eat: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
   drink: { icon: "bi-cup-straw", color: "#2563eb", label: "Water" },
+  food: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
+  water: { icon: "bi-cup-straw", color: "#2563eb", label: "Water" },
 };
+
+const FALLBACK_CFG = { icon: "bi-question-circle", color: "#9ca3af", label: "Unknown" };
 
 function fmt(iso: string) {
   const d = new Date(iso);
@@ -148,7 +152,7 @@ export default function AdminPage() {
           <h2 style={sectionTitle}>Today</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
             {counts(todayEntries).map(({ type, count }) => {
-              const cfg = TYPE_CONFIG[type];
+              const cfg = TYPE_CONFIG[type] ?? FALLBACK_CFG;
               return (
                 <div key={type} style={statCard}>
                   <i className={`bi ${cfg.icon}`} style={{ fontSize: "1.75rem", color: cfg.color }} />
@@ -248,7 +252,7 @@ export default function AdminPage() {
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
               {entries.map((e) => {
-                const cfg = TYPE_CONFIG[e.activity_type];
+                const cfg = TYPE_CONFIG[e.activity_type] ?? FALLBACK_CFG;
                 return (
                   <div
                     key={e.id}
