@@ -8,20 +8,29 @@ type Activity = "pee" | "poop" | "eat" | "drink";
 interface ActivityConfig {
   label: string;
   icon: string;
+  svgPath?: string;
   color: string;
   bg: string;
+}
+
+const POOP_PATH = "M16 2 C19 2 21.5 4.5 21.5 7.5 C21.5 9 20.8 10.3 19.7 11.2 C24 12.2 27 15.5 27 19.5 C27 22 25.8 24.2 24 25.5 C27.5 26.5 30 29 30 32 L2 32 C2 29 4.5 26.5 8 25.5 C6.2 24.2 5 22 5 19.5 C5 15.5 8 12.2 12.3 11.2 C11.2 10.3 10.5 9 10.5 7.5 C10.5 4.5 13 2 16 2 Z";
+
+function Icon({ cfg, size }: { cfg: ActivityConfig; size: string }) {
+  if (cfg.svgPath) return <svg viewBox="0 0 32 32" style={{ width: size, height: size, fill: cfg.color }} aria-hidden><path d={cfg.svgPath} /></svg>;
+  return <i className={`bi ${cfg.icon}`} style={{ fontSize: size, color: cfg.color, lineHeight: 1 }} />;
 }
 
 const ACTIVITIES: Record<Activity, ActivityConfig> = {
   pee: {
     label: "Pee",
-    icon: "bi-droplet-fill",
+    icon: "bi-droplet",
     color: "#d97706",
     bg: "#fffbeb",
   },
   poop: {
     label: "Poop",
-    icon: "bi-moon-fill",
+    icon: "",
+    svgPath: POOP_PATH,
     color: "#78350f",
     bg: "#fef3c7",
   },
@@ -130,10 +139,7 @@ export default function Home() {
           WebkitUserSelect: "none",
         }}
       >
-        <i
-          className={`bi ${cfg.icon}`}
-          style={{ fontSize: "7rem", color: cfg.color, lineHeight: 1 }}
-        />
+        <Icon cfg={cfg} size="7rem" />
         <div style={{ textAlign: "center" }}>
           <div
             style={{
@@ -269,10 +275,7 @@ export default function Home() {
                 (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 1px 4px rgba(0,0,0,0.06)";
               }}
             >
-              <i
-                className={`bi ${cfg.icon}`}
-                style={{ fontSize: "3rem", color: cfg.color, lineHeight: 1 }}
-              />
+              <Icon cfg={cfg} size="3rem" />
               <span
                 style={{
                   fontSize: "1.15rem",
