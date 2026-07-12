@@ -2,6 +2,25 @@
 
 import { useState, useEffect, useRef } from "react";
 
+function DogIcon({ size = "1em", color = "currentColor" }: { size?: string; color?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" width={size} height={size} fill={color} aria-hidden="true">
+      {/* body */}
+      <ellipse cx="7.5" cy="10.5" rx="4" ry="2.8" />
+      {/* head */}
+      <circle cx="11" cy="5.5" r="2.3" />
+      {/* floppy ear */}
+      <ellipse cx="9.2" cy="3.8" rx="1.1" ry="2" transform="rotate(-20 9.2 3.8)" />
+      {/* tail */}
+      <path d="M3.8 9.5c-1-1-1.5-3 0-4.5.5-.6 1-.5 1 0-.8 1-.5 2.5.5 3.5z" />
+      {/* front leg */}
+      <rect x="8.8" y="13" width="1.4" height="2" rx="0.7" />
+      {/* hind leg */}
+      <rect x="5.5" y="13" width="1.4" height="2" rx="0.7" />
+    </svg>
+  );
+}
+
 type Activity = "pee" | "poop" | "eat" | "drink";
 
 interface ActivityConfig {
@@ -202,10 +221,7 @@ export default function Home() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: "0.25rem" }}>
-        <i
-          className="bi bi-heart-pulse-fill"
-          style={{ fontSize: "2.75rem", color: "#6b7280" }}
-        />
+        <DogIcon size="2.75rem" color="#6b7280" />
         <h1
           style={{
             margin: "0.25rem 0 0",
