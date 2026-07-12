@@ -4,19 +4,24 @@ import { useState, useEffect, useRef } from "react";
 
 function DogIcon({ size = "1em", color = "currentColor" }: { size?: string; color?: string }) {
   return (
-    <svg viewBox="0 0 16 16" width={size} height={size} fill={color} aria-hidden="true">
-      {/* body */}
-      <ellipse cx="7.5" cy="10.5" rx="4" ry="2.8" />
-      {/* head */}
-      <circle cx="11" cy="5.5" r="2.3" />
-      {/* floppy ear */}
-      <ellipse cx="9.2" cy="3.8" rx="1.1" ry="2" transform="rotate(-20 9.2 3.8)" />
-      {/* tail */}
-      <path d="M3.8 9.5c-1-1-1.5-3 0-4.5.5-.6 1-.5 1 0-.8 1-.5 2.5.5 3.5z" />
-      {/* front leg */}
-      <rect x="8.8" y="13" width="1.4" height="2" rx="0.7" />
-      {/* hind leg */}
-      <rect x="5.5" y="13" width="1.4" height="2" rx="0.7" />
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="13" r="6.5" />
+      <path d="M8 7C3 7 3 18 6 18C7.5 18 9 16 8 13" />
+      <path d="M16 7C21 7 21 18 18 18C16.5 18 15 16 16 13" />
+      <circle cx="9.5" cy="12.5" r="0.8" fill={color} stroke="none" />
+      <circle cx="14.5" cy="12.5" r="0.8" fill={color} stroke="none" />
+      <ellipse cx="12" cy="15.5" rx="1.5" ry="1" fill={color} stroke="none" />
+      <path d="M10 17Q12 19 14 17" />
     </svg>
   );
 }
@@ -152,15 +157,22 @@ export default function Home() {
           className={`bi ${cfg.icon}`}
           style={{ fontSize: "7rem", color: cfg.color, lineHeight: 1 }}
         />
-        <div
-          style={{
-            fontSize: "2.6rem",
-            fontWeight: 800,
-            color: cfg.color,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {cancelled ? "Cancelled!" : `${cfg.label} Logged!`}
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              fontSize: "2.6rem",
+              fontWeight: 800,
+              color: cfg.color,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {cancelled ? "Cancelled!" : `${cfg.label} Logged!`}
+          </div>
+          {!cancelled && (
+            <div style={{ marginTop: "0.35rem", color: cfg.color, opacity: 0.6, fontSize: "1rem", fontWeight: 500 }}>
+              {new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true })}
+            </div>
+          )}
         </div>
 
         {!cancelled && (
@@ -301,14 +313,16 @@ export default function Home() {
       <a
         href="/admin"
         style={{
-          marginTop: "0.75rem",
-          color: "#9ca3af",
-          fontSize: "0.85rem",
+          position: "fixed",
+          bottom: "1.25rem",
+          right: "1.5rem",
+          color: "#d1d5db",
+          fontSize: "0.72rem",
           textDecoration: "none",
-          letterSpacing: "0.01em",
+          letterSpacing: "0.05em",
         }}
       >
-        Admin <i className="bi bi-arrow-right" />
+        admin
       </a>
     </div>
   );
