@@ -15,7 +15,7 @@ type Cfg = { icon: string; color: string; label: string };
 
 const TYPE_CONFIG: Record<string, Cfg> = {
   pee: { icon: "bi-droplet", color: "#d97706", label: "Pee" },
-  poop: { icon: "bi-moon-fill", color: "#78350f", label: "Poop" },
+  poop: { icon: "bi-moon", color: "#78350f", label: "Poop" },
   eat: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
   drink: { icon: "bi-cup-straw", color: "#2563eb", label: "Water" },
   food: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },

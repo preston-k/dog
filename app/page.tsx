@@ -21,7 +21,7 @@ const ACTIVITIES: Record<Activity, ActivityConfig> = {
   },
   poop: {
     label: "Poop",
-    icon: "bi-moon-fill",
+    icon: "bi-moon",
     color: "#78350f",
     bg: "#fef3c7",
   },
@@ -293,7 +293,7 @@ export default function Home() {
           letterSpacing: "0.05em",
         }}
       >
-        admin
+        Logs
       </a>
     </div>
   );
