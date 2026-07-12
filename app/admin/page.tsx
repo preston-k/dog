@@ -14,8 +14,8 @@ interface Entry {
 const TYPE_CONFIG: Record<Activity, { icon: string; color: string; label: string }> = {
   pee: { icon: "bi-droplet-fill", color: "#d97706", label: "Pee" },
   poop: { icon: "bi-moon-fill", color: "#78350f", label: "Poop" },
-  eat: { icon: "bi-egg-fried", color: "#dc2626", label: "Eat" },
-  drink: { icon: "bi-cup-straw", color: "#2563eb", label: "Drink" },
+  eat: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
+  drink: { icon: "bi-cup-straw", color: "#2563eb", label: "Water" },
 };
 
 function fmt(iso: string) {

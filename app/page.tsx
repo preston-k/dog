@@ -26,13 +26,13 @@ const ACTIVITIES: Record<Activity, ActivityConfig> = {
     bg: "#fef3c7",
   },
   eat: {
-    label: "Eat",
+    label: "Food",
     icon: "bi-egg-fried",
     color: "#dc2626",
     bg: "#fef2f2",
   },
   drink: {
-    label: "Drink",
+    label: "Water",
     icon: "bi-cup-straw",
     color: "#2563eb",
     bg: "#eff6ff",
