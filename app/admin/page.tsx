@@ -11,18 +11,11 @@ interface Entry {
   notes: string | null;
 }
 
-const POOP_PATH = "M16 2 C19 2 21.5 4.5 21.5 7.5 C21.5 9 20.8 10.3 19.7 11.2 C24 12.2 27 15.5 27 19.5 C27 22 25.8 24.2 24 25.5 C27.5 26.5 30 29 30 32 L2 32 C2 29 4.5 26.5 8 25.5 C6.2 24.2 5 22 5 19.5 C5 15.5 8 12.2 12.3 11.2 C11.2 10.3 10.5 9 10.5 7.5 C10.5 4.5 13 2 16 2 Z";
-
-type Cfg = { icon?: string; svgPath?: string; color: string; label: string };
-
-function TypeIcon({ cfg, size }: { cfg: Cfg; size: string }) {
-  if (cfg.svgPath) return <svg viewBox="0 0 32 32" style={{ width: size, height: size, fill: cfg.color, flexShrink: 0 }} aria-hidden><path d={cfg.svgPath} /></svg>;
-  return <i className={`bi ${cfg.icon}`} style={{ fontSize: size, color: cfg.color }} />;
-}
+type Cfg = { icon: string; color: string; label: string };
 
 const TYPE_CONFIG: Record<string, Cfg> = {
   pee: { icon: "bi-droplet", color: "#d97706", label: "Pee" },
-  poop: { svgPath: POOP_PATH, color: "#78350f", label: "Poop" },
+  poop: { icon: "bi-moon-fill", color: "#78350f", label: "Poop" },
   eat: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
   drink: { icon: "bi-cup-straw", color: "#2563eb", label: "Water" },
   food: { icon: "bi-egg-fried", color: "#dc2626", label: "Food" },
@@ -164,7 +157,7 @@ export default function AdminPage() {
               const cfg = TYPE_CONFIG[type] ?? FALLBACK_CFG;
               return (
                 <div key={type} style={statCard}>
-                  <TypeIcon cfg={cfg} size="1.75rem" />
+                  <i className={`bi ${cfg.icon}`} style={{ fontSize: "1.75rem", color: cfg.color }} />
                   <span style={{ fontSize: "1.5rem", fontWeight: 800, color: cfg.color }}>{count}</span>
                   <span style={{ fontSize: "0.75rem", color: "#9ca3af" }}>{cfg.label}</span>
                 </div>
@@ -245,7 +238,7 @@ export default function AdminPage() {
                     "All"
                   ) : (
                     <>
-                      <TypeIcon cfg={TYPE_CONFIG[t]} size="0.85rem" />
+                      <i className={`bi ${TYPE_CONFIG[t].icon}`} style={{ fontSize: "0.85rem" }} />
                       {TYPE_CONFIG[t].label}
                     </>
                   )}
@@ -267,7 +260,7 @@ export default function AdminPage() {
                     key={e.id}
                     style={{ ...card, display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.85rem 1rem" }}
                   >
-                    <TypeIcon cfg={cfg} size="1.4rem" />
+                    <i className={`bi ${cfg.icon}`} style={{ fontSize: "1.4rem", color: cfg.color, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 700, color: cfg.color, fontSize: "0.95rem" }}>{cfg.label}</div>
                       <div style={{ color: "#6b7280", fontSize: "0.82rem" }}>{fmt(e.logged_at)}</div>
