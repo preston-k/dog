@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 const SESSION_COOKIE = "dog_session";
 const STATE_COOKIE = "dog_oidc_state";
+const VERIFIER_COOKIE = "dog_oidc_verifier";
 const secret = new TextEncoder().encode(process.env.SESSION_SECRET!);
 
 export interface Session {
@@ -43,4 +44,4 @@ export async function getSession(req: NextRequest): Promise<Session | null> {
   return verifySession(token);
 }
 
-export { SESSION_COOKIE, STATE_COOKIE };
+export { SESSION_COOKIE, STATE_COOKIE, VERIFIER_COOKIE };
