@@ -2,29 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 
-function DogIcon({ size = "1em", color = "currentColor" }: { size?: string; color?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke={color}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="13" r="6.5" />
-      <path d="M8 7C3 7 3 18 6 18C7.5 18 9 16 8 13" />
-      <path d="M16 7C21 7 21 18 18 18C16.5 18 15 16 16 13" />
-      <circle cx="9.5" cy="12.5" r="0.8" fill={color} stroke="none" />
-      <circle cx="14.5" cy="12.5" r="0.8" fill={color} stroke="none" />
-      <ellipse cx="12" cy="15.5" rx="1.5" ry="1" fill={color} stroke="none" />
-      <path d="M10 17Q12 19 14 17" />
-    </svg>
-  );
-}
 
 type Activity = "pee" | "poop" | "eat" | "drink";
 
@@ -233,7 +210,7 @@ export default function Home() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: "0.25rem" }}>
-        <DogIcon size="2.75rem" color="#6b7280" />
+        <img src="https://cdn.pkserver.co/uploads/5603cd4e-a2bf-4143-87fa-5ce8b99ad272.png" alt="" style={{ width: "2.75rem", height: "2.75rem", objectFit: "contain" }} />
         <h1
           style={{
             margin: "0.25rem 0 0",
