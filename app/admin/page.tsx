@@ -178,7 +178,7 @@ export default function AdminPage() {
                   onChange={(e) => setBfType(e.target.value as Activity)}
                   style={inputStyle}
                 >
-                  {(Object.keys(TYPE_CONFIG) as Activity[]).map((t) => (
+                  {(["pee", "poop", "eat", "drink"] as Activity[]).map((t) => (
                     <option key={t} value={t}>{TYPE_CONFIG[t].label}</option>
                   ))}
                 </select>
@@ -299,7 +299,7 @@ export default function AdminPage() {
             <label style={labelStyle}>
               Activity
               <select value={editType} onChange={(e) => setEditType(e.target.value as Activity)} style={inputStyle}>
-                {(Object.keys(TYPE_CONFIG) as Activity[]).map((t) => (
+                {(["pee", "poop", "eat", "drink"] as Activity[]).map((t) => (
                   <option key={t} value={t}>{TYPE_CONFIG[t].label}</option>
                 ))}
               </select>
