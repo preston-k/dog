@@ -16,7 +16,7 @@ function isInCidr(ip: string, cidr: string): boolean {
 function getIp(request: NextRequest): string | null {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) return forwarded.split(",")[0].trim();
-  return request.ip ?? null;
+  return null;
 }
 
 export async function proxy(request: NextRequest) {
