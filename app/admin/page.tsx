@@ -51,6 +51,8 @@ export default function AdminPage() {
   const [bfNotes, setBfNotes] = useState("");
   const [bfAdding, setBfAdding] = useState(false);
 
+  const [trendEntries, setTrendEntries] = useState<Entry[]>([]);
+
   const [editing, setEditing] = useState<Entry | null>(null);
   const [editTime, setEditTime] = useState("");
   const [editNotes, setEditNotes] = useState("");
@@ -66,6 +68,12 @@ export default function AdminPage() {
   }, [filterType]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    fetch("/api/activities?limit=500")
+      .then((r) => r.json())
+      .then(setTrendEntries);
+  }, []);
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this entry?")) return;
@@ -163,6 +171,86 @@ export default function AdminPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* Trends */}
+        <section style={{ marginBottom: "1.5rem" }}>
+          <h2 style={sectionTitle}>Trends · last 30 days</h2>
+          <div style={card}>
+            {(() => {
+              const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+              const recent = trendEntries.filter((e) => new Date(e.logged_at).getTime() >= cutoff);
+              const daySet = new Set(
+                recent.map((e) => {
+                  const d = new Date(e.logged_at);
+                  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+                })
+              );
+              const numDays = Math.max(daySet.size, 1);
+
+              return (["pee", "poop", "eat", "drink"] as Activity[]).map((type) => {
+                const cfg = TYPE_CONFIG[type];
+                const typeEntries = recent.filter((e) => e.activity_type === type);
+                const hourCounts = Array.from({ length: 24 }, (_, h) =>
+                  typeEntries.filter((e) => new Date(e.logged_at).getHours() === h).length
+                );
+                const maxCount = Math.max(...hourCounts, 1);
+                const avgPerDay = (typeEntries.length / numDays).toFixed(1);
+
+                return (
+                  <div key={type} style={{ marginBottom: "0.85rem" }}>
+                    <div style={{ display: "flex", alignItems: "flex-end", gap: "0.6rem" }}>
+                      <i
+                        className={`bi ${cfg.icon}`}
+                        style={{ color: cfg.color, fontSize: "1rem", width: "1rem", flexShrink: 0, marginBottom: "2px" }}
+                      />
+                      <div style={{ flex: 1, height: "36px", display: "flex", alignItems: "flex-end", gap: "1px" }}>
+                        {hourCounts.map((count, h) => (
+                          <div
+                            key={h}
+                            title={`${h === 0 ? "12am" : h < 12 ? `${h}am` : h === 12 ? "12pm" : `${h - 12}pm`}: ${count}`}
+                            style={{
+                              flex: 1,
+                              background: cfg.color,
+                              borderRadius: "2px 2px 0 0",
+                              opacity: count === 0 ? 0.08 : 0.2 + (count / maxCount) * 0.8,
+                              height: count === 0 ? "2px" : `${Math.max((count / maxCount) * 100, 14)}%`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <span style={{ fontSize: "0.7rem", color: "#9ca3af", flexShrink: 0, width: "3.5rem", textAlign: "right", marginBottom: "2px" }}>
+                        {avgPerDay}×/day
+                      </span>
+                    </div>
+                  </div>
+                );
+              });
+            })()}
+
+            <div style={{ position: "relative", height: "14px", marginLeft: "1.6rem", marginRight: "4.1rem" }}>
+              {[
+                { pct: 0, label: "12a" },
+                { pct: 25, label: "6a" },
+                { pct: 50, label: "12p" },
+                { pct: 75, label: "6p" },
+                { pct: 100, label: "12a" },
+              ].map(({ pct, label }, i) => (
+                <span
+                  key={i}
+                  style={{
+                    position: "absolute",
+                    left: `${pct}%`,
+                    transform: pct === 100 ? "translateX(-100%)" : pct === 0 ? "none" : "translateX(-50%)",
+                    fontSize: "0.62rem",
+                    color: "#d1d5db",
+                  }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
