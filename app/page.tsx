@@ -41,15 +41,42 @@ const ACTIVITIES: Record<Activity, ActivityConfig> = {
 
 const CONFIRM_DURATION = 5000;
 
+function formatLastTime(isoString: string | null): string {
+  if (!isoString) return "--";
+  const date = new Date(isoString);
+  const now = new Date();
+  if (
+    date.getFullYear() !== now.getFullYear() ||
+    date.getMonth() !== now.getMonth() ||
+    date.getDate() !== now.getDate()
+  ) return "--";
+  return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
+}
+
 export default function Home() {
   const [active, setActive] = useState<Activity | null>(null);
   const [progress, setProgress] = useState(0);
   const [cancelled, setCancelled] = useState(false);
+  const [lastTimes, setLastTimes] = useState<Record<Activity, string | null>>({
+    pee: null, poop: null, eat: null, drink: null,
+  });
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startRef = useRef<number>(0);
   const loggedEntryId = useRef<number | null>(null);
   const loggingRef = useRef(false);
+
+  useEffect(() => {
+    fetch("/api/activities?limit=100")
+      .then((r) => r.json())
+      .then((rows: { activity_type: Activity; logged_at: string }[]) => {
+        const times: Record<Activity, string | null> = { pee: null, poop: null, eat: null, drink: null };
+        for (const row of rows) {
+          if (times[row.activity_type] === null) times[row.activity_type] = row.logged_at;
+        }
+        setLastTimes(times);
+      });
+  }, []);
 
   const clearTimers = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -64,6 +91,8 @@ export default function Home() {
     loggedEntryId.current = null;
     loggingRef.current = true;
     startRef.current = Date.now();
+
+    setLastTimes((prev) => ({ ...prev, [type]: new Date().toISOString() }));
 
     fetch("/api/activities", {
       method: "POST",
@@ -275,6 +304,15 @@ export default function Home() {
                 }}
               >
                 {cfg.label}
+              </span>
+              <span
+                style={{
+                  fontSize: "0.72rem",
+                  fontWeight: 400,
+                  color: "#9ca3af",
+                }}
+              >
+                Last at {formatLastTime(lastTimes[type])}
               </span>
             </button>
           )
